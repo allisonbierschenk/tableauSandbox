@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { TableauViz, SheetType, TableauEventType } from 'https://us-west-2b.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
-import './Dashboard.css'; // Import the stylesheet
+// import { TableauViz, SheetType, TableauEventType } from 'https://prod-useast-b.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
+import './Dashboard.css'; 
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard({ token, setToken }) {
     const [error, setError] = useState(null);
     const [viz] = useState("https://us-west-2b.online.tableau.com/t/eacloud/views/UAFSuperstore-AllisonTest/Customers");
+    const [DoeNJViz] = useState("https://prod-useast-b.online.tableau.com/t/njdoepublic/views/StateRankingReport_Test/Main")
     const vizRef = useRef(null);
     const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ function Dashboard({ token, setToken }) {
                     ref={vizRef}
                     token={token}
                     id="tableauViz"
-                    src={viz}
+                    src={DoeNJViz}
                     device="desktop"
                     toolbar="hidden"
                     className="tableau-viz"

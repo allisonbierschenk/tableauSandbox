@@ -2,11 +2,13 @@
 .container {
     height: 1000px; /* Or any desired height */
     width: 1300px; /* Ensure the width is sufficient */
+    
   }
   
   .tableau-viz {
     width: 1300px; /* Ensure the viz takes up the full width */
     height: 1000; /* Ensure the viz takes up the full height */
+    border: 1px solid #ddd;
   }
   div {
     padding: 0px 10px 10px 10px
