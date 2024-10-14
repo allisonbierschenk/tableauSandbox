@@ -14,12 +14,8 @@ function Dashboard({ token, setToken }) {
         if (token && vizRef.current) {
             const viz = vizRef.current;
             viz.token = token;
-            if (viz.workbook.activeSheet.sheetType === SheetType.Dashboard) {
-                    const dashboard = viz.workbook.activeSheet;
-                    const worksheets = dashboard.worksheets.filter((ws) => ws.name === 'CustomerOverview');
-                    worksheets.forEach((ws) => ws.clearFilterAsync("YEAR(Order Date)"));
-                }
-        ;
+          
+        
         }
     }, [token]);
 
