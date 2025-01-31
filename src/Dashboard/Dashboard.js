@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Dashboard({ token, setToken }) {
     const [error, setError] = useState(null);
-    const [viz] = useState("https://us-west-2b.online.tableau.com/t/eacloud/views/UAFSuperstore-AllisonTest/Customers");
+    // const [viz] = useState("https://us-west-2b.online.tableau.com/t/embedseubl/views/Superstore_17284787699600/Customers");
+    const [viz] = useState("https://us-west-2b.online.tableau.com/t/eacloud/views/Blank/Sheet1");
+
     const vizRef = useRef(null);
     const navigate = useNavigate();
 
@@ -13,22 +15,24 @@ function Dashboard({ token, setToken }) {
         if (token && vizRef.current) {
             const viz = vizRef.current;
             viz.token = token;
-            viz.addFilter("YEAR(Order Date)", 2019);
+            // viz.addFilter("YEAR(Order Date)", 2019);
+            viz.addEventListener(TableauEventType.FirstInteractive, () => {
+                console.log('Viz is interactive!');
+            })
+            // const waitForVizInteractive = new Promise((resolve) => {
+            //     viz.addEventListener(TableauEventType.FirstInteractive, () => {
+            //         console.log('Viz is interactive!');
+            //         resolve(viz);
+            //     });
+            // });
 
-            const waitForVizInteractive = new Promise((resolve) => {
-                viz.addEventListener(TableauEventType.FirstInteractive, () => {
-                    console.log('Viz is interactive!');
-                    resolve(viz);
-                });
-            });
-
-            waitForVizInteractive.then((viz) => {
-                if (viz.workbook.activeSheet.sheetType === SheetType.Dashboard) {
-                    const dashboard = viz.workbook.activeSheet;
-                    const worksheets = dashboard.worksheets.filter((ws) => ws.name === 'CustomerOverview');
-                    worksheets.forEach((ws) => ws.clearFilterAsync("YEAR(Order Date)"));
-                }
-            });
+            // waitForVizInteractive.then((viz) => {
+            //     if (viz.workbook.activeSheet.sheetType === SheetType.Dashboard) {
+            //         const dashboard = viz.workbook.activeSheet;
+            //         const worksheets = dashboard.worksheets.filter((ws) => ws.name === 'CustomerOverview');
+            //         worksheets.forEach((ws) => ws.clearFilterAsync("YEAR(Order Date)"));
+            //     }
+            // });
         }
     }, [token]);
 
@@ -46,7 +50,8 @@ function Dashboard({ token, setToken }) {
             {error ? (
                 <div>{error}</div>
             ) : token ? (
-                <tableau-viz
+                <div>
+                    <tableau-viz
                     ref={vizRef}
                     token={token}
                     id="tableauViz"
@@ -55,6 +60,7 @@ function Dashboard({ token, setToken }) {
                     toolbar="hidden"
                     className="tableau-viz"
                 />
+                </div>
             ) : (
                 <div>Loading...</div>
             )}

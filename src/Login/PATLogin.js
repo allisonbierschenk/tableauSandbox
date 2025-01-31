@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login({ onLogin }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [tokenName, setTokenName] = useState(''); // Replace username with token name
+    const [tokenSecret, setTokenSecret] = useState(''); // Replace password with token secret
     const [error, setError] = useState(null);
 
     async function handleLogin(event) {
@@ -16,11 +16,11 @@ function Login({ onLogin }) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    credentials: {
-                        name: username,  // Use 'name' instead of 'username'
-                        password,  // password field
+                    credentials: { 
+                        personalAccessTokenName: tokenName,  // Use token name
+                        personalAccessTokenSecret: tokenSecret,  // Use token secret
                         site: {
-                            contentUrl: 'eacloud'  // Your actual site content URL
+                            contentUrl: 'embedseubl'  // Replace with your actual site content URL
                         }
                     }
                 })
@@ -51,24 +51,24 @@ function Login({ onLogin }) {
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleLogin}>
                 <div className="mb-3">
-                    <label htmlFor="username" className="form-label">Username</label>
+                    <label htmlFor="tokenName" className="form-label">Personal Access Token Name</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        id="tokenName"
+                        value={tokenName}
+                        onChange={(e) => setTokenName(e.target.value)}
                         required
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
+                    <label htmlFor="tokenSecret" className="form-label">Personal Access Token Secret</label>
                     <input
                         type="password"
                         className="form-control"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        id="tokenSecret"
+                        value={tokenSecret}
+                        onChange={(e) => setTokenSecret(e.target.value)}
                         required
                     />
                 </div>
