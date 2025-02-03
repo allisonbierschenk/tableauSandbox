@@ -15,15 +15,17 @@ function Login({ onLogin }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    credentials: {
-                        name: username,  // Use 'name' instead of 'username'
-                        password,  // password field
-                        site: {
-                            contentUrl: 'eacloud'  // Your actual site content URL
-                        }
-                    }
-                })
+                body: JSON.stringify({ username, password })
+                // use with go server
+                // body: JSON.stringify({
+                //     credentials: {
+                //         name: username,  // Use 'name' instead of 'username'
+                //         password,  // password field
+                //         site: {
+                //             contentUrl: 'eacloud'  // Your actual site content URL
+                //         }
+                //     }
+                // })
             });
 
             if (!response.ok) {

@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Dashboard({ token, setToken }) {
     const [error, setError] = useState(null);
-    // const [viz] = useState("https://us-west-2b.online.tableau.com/t/embedseubl/views/Superstore_17284787699600/Customers");
-    const [viz] = useState("https://us-west-2b.online.tableau.com/t/eacloud/views/Blank/Sheet1");
+    const [viz] = useState("https://us-west-2b.online.tableau.com/t/embedseubl/views/Superstore_17284787699600/Customers");
+    // const [viz] = useState("https://us-west-2b.online.tableau.com/t/eacloud/views/Blank/Sheet1");
 
     const vizRef = useRef(null);
     const navigate = useNavigate();

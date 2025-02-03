@@ -12,18 +12,18 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route
+                {/* <Route
                     path="/login"
                     element={
                         token ? <Navigate to="/dashboard" /> : <Login onLogin={setToken} />
                     }
-                />
-                 {/* <Route
+                /> */}
+                 <Route
                     path="/login"
                     element={
                         token ? <Navigate to="/dashboard" /> : <PATLogin onLogin={setToken} />
                     }
-                /> */}
+                />
                 <Route
                     path="/dashboard"
                     element={
