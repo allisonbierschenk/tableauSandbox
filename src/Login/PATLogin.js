@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login({ onLogin }) {
-    const [tokenName, setTokenName] = useState(''); // Replace username with token name
-    const [tokenSecret, setTokenSecret] = useState(''); // Replace password with token secret
+    const [tokenName, setTokenName] = useState(process.env.REACT_APP_EMBEDSEUBL_USERNAME ); //current username for embedseubl site
+    const [tokenSecret, setTokenSecret] = useState(process.env.REACT_APP_EMBEDSEUBL_PASSWORD); //current password for embedseubl site
     const [error, setError] = useState(null);
+
+        // Check if there's a token in localStorage on page load
+        useEffect(() => {
+            const savedToken = localStorage.getItem('jwtToken');
+            if (savedToken) {
+                onLogin(savedToken); // Restore session if token exists
+            }
+        }, [onLogin]);
 
     async function handleLogin(event) {
         event.preventDefault();
@@ -17,10 +25,10 @@ function Login({ onLogin }) {
                 },
                 body: JSON.stringify({
                     credentials: { 
-                        personalAccessTokenName: tokenName,  // Use token name
-                        personalAccessTokenSecret: tokenSecret,  // Use token secret
+                        personalAccessTokenName: tokenName,  
+                        personalAccessTokenSecret: tokenSecret,  
                         site: {
-                            contentUrl: 'embedseubl'  // Replace with your actual site content URL
+                            contentUrl: 'embedseubl' 
                         }
                     }
                 })
@@ -33,7 +41,7 @@ function Login({ onLogin }) {
             const data = await response.json();
             const jwtToken = data.jwtToken;
 
-            // Pass the JWT token to the parent component (App)
+            localStorage.setItem('jwtToken', jwtToken);
             onLogin(jwtToken);
 
             console.log('JWT Token:', jwtToken);
@@ -57,7 +65,8 @@ function Login({ onLogin }) {
                         className="form-control"
                         id="tokenName"
                         value={tokenName}
-                        onChange={(e) => setTokenName(e.target.value)}
+                        onChange={(e) => setTokenName(process.env.REACT_APP_EMBEDSEUBL_USERNAME)}
+                        autoComplete="off" 
                         required
                     />
                 </div>
@@ -68,7 +77,7 @@ function Login({ onLogin }) {
                         className="form-control"
                         id="tokenSecret"
                         value={tokenSecret}
-                        onChange={(e) => setTokenSecret(e.target.value)}
+                        onChange={(e) => setTokenSecret(process.env.REACT_APP_EMBEDSEUBL_PASSWORD)}
                         required
                     />
                 </div>

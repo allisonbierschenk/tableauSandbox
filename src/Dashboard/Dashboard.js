@@ -37,9 +37,8 @@ function Dashboard({ token, setToken }) {
     }, [token]);
 
     const handleLogout = () => {
-        // Clear the token
         setToken('');
-        // Redirect to the login page
+        localStorage.removeItem('jwtToken');
         navigate('/');
     };
 
