@@ -41,7 +41,7 @@ function OKTALogin({ onLogin }) {
     // }, []);
 
     const handleLogin = () => {
-        window.location.href = "http://localhost:3333/login"; // Redirect to Okta
+        window.location.href = process.env.REACT_APP_AUTH_SERVER + "/login"; // Redirect to Okta
     };
 
     return (

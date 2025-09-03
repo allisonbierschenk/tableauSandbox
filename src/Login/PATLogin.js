@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login({ onLogin }) {
-    const [tokenName, setTokenName] = useState(process.env.REACT_APP_EMBEDSEUBL_USERNAME ); //current username for embedseubl site
+    const [tokenName, setTokenName] = useState(process.env.REACT_APP_EMBEDSEUBL_PATNAME ); //current username for embedseubl site
     const [tokenSecret, setTokenSecret] = useState(process.env.REACT_APP_EMBEDSEUBL_PASSWORD); //current password for embedseubl site
     const [error, setError] = useState(null);
 
@@ -18,7 +18,7 @@ function Login({ onLogin }) {
         event.preventDefault();
         try {
             // Send login request to the Go server
-            const response = await fetch('http://localhost:3333/tableau-signin', {
+            const response = await fetch(`${process.env.REACT_APP_AUTH_SERVER}/tableau-signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ function Login({ onLogin }) {
                         className="form-control"
                         id="tokenName"
                         value={tokenName}
-                        onChange={(e) => setTokenName(process.env.REACT_APP_EMBEDSEUBL_USERNAME)}
+                        onChange={(e) => setTokenName(process.env.REACT_APP_EMBEDSEUBL_PATNAME)}
                         autoComplete="off" 
                         required
                     />

@@ -2,30 +2,21 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login({ onLogin }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    // Get username and password from environment variables
+    const [username, setUsername] = useState(process.env.REACT_APP_USERNAME || '');
+    const [password, setPassword] = useState(process.env.REACT_APP_PASSWORD || '');
     const [error, setError] = useState(null);
 
     async function handleLogin(event) {
         event.preventDefault();
         try {
             // Send login request to the Go server
-            const response = await fetch('http://localhost:3333/tableau-signin', {
+            const response = await fetch(`${process.env.REACT_APP_AUTH_SERVER}/tableau-signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ username, password })
-                // use with go server
-                // body: JSON.stringify({
-                //     credentials: {
-                //         name: username,  // Use 'name' instead of 'username'
-                //         password,  // password field
-                //         site: {
-                //             contentUrl: 'eacloud'  // Your actual site content URL
-                //         }
-                //     }
-                // })
             });
 
             if (!response.ok) {
@@ -34,6 +25,13 @@ function Login({ onLogin }) {
 
             const data = await response.json();
             const jwtToken = data.jwtToken;
+            const tableauToken = data.tsAuthInfo.ts_auth_token
+            console.log("tableauToken", tableauToken)
+
+            // Store the JWT token in localStorage
+            localStorage.setItem('jwtToken', jwtToken);
+            localStorage.setItem('tableauToken', tableauToken)
+
 
             // Pass the JWT token to the parent component (App)
             onLogin(jwtToken);
@@ -58,7 +56,7 @@ function Login({ onLogin }) {
                         type="text"
                         className="form-control"
                         id="username"
-                        value={username}
+                        value={username} // Populating with environment variable, editable
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
@@ -69,7 +67,7 @@ function Login({ onLogin }) {
                         type="password"
                         className="form-control"
                         id="password"
-                        value={password}
+                        value={password} // Populating with environment variable, editable
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
