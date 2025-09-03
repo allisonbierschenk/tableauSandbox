@@ -1,13 +1,5 @@
 [variables]
 NODE_ENV = "production"
-GENERATE_SOURCEMAP = "false"
-INLINE_RUNTIME_CHUNK = "false"
-
-[build]
-cmd = "npm install && node build.js"
-
-[start]
-cmd = "npx serve -s build -l 3000"
 
 [phases.setup]
 nixPkgs = ["nodejs_18"]
