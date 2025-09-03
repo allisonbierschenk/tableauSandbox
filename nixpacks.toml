@@ -1,5 +1,7 @@
 [variables]
 NODE_ENV = "production"
+GENERATE_SOURCEMAP = "false"
+INLINE_RUNTIME_CHUNK = "false"
 
 [build]
 cmd = "npm install && npm run build"
