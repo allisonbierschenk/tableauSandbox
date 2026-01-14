@@ -1,15 +1,18 @@
 /* App.css or similar stylesheet */
 .container {
-    height: 1000px; /* Or any desired height */
-    width: 1300px; /* Ensure the width is sufficient */
+    max-width: 1300px;
+    width: 100%;
+    height: auto;
+    min-height: 1000px;
   }
   
   .modal {
     width: 1200px;
   }
   .tableau-viz {
-    width: 1300px; /* Ensure the viz takes up the full width */
-    height: 1000px; /* Ensure the viz takes up the full height */
+    width: 100%;
+    max-width: 1300px;
+    height: 1000px;
   }
   div {
     padding: 0px 10px 10px 10px
@@ -71,3 +74,15 @@
   cursor: pointer;
 }
 
+/* Responsive behavior for mobile/tablet */
+@media (max-width: 700px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .tableau-viz {
+    width: 100%;
+    height: 600px;
+  }
+}
