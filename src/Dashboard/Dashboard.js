@@ -36,6 +36,7 @@ function Dashboard({ token, setToken }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [vizUrl, setVizUrl] = useState("");
+    const [deviceType, setDeviceType] = useState(window.innerWidth < 700 ? 'phone' : 'desktop');
 
     function handleLoadError(e) {
         let message = "Unknown error";
@@ -65,6 +66,26 @@ function Dashboard({ token, setToken }) {
             setVizUrl(location.state.url);
         }
     }, [location.state]);
+
+    // Handle dynamic device type based on screen size
+    useEffect(() => {
+        // Log initial device type
+        console.log(`Initial screen width: ${window.innerWidth}px, Device type: ${deviceType}`);
+        
+        const handleResize = () => {
+            const newDeviceType = window.innerWidth < 700 ? 'phone' : 'desktop';
+            setDeviceType(newDeviceType);
+            console.log(`Screen resized - Width: ${window.innerWidth}px, Device type: ${newDeviceType}`);
+        };
+
+        // Add event listener
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup event listener on unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [deviceType]);
 
     const jwtToken = localStorage.getItem('jwtToken');
 
@@ -151,7 +172,7 @@ function Dashboard({ token, setToken }) {
                     src={viz}
                     token={jwtToken}
                     // token='bad-token'
-                    device="desktop"
+                    device={deviceType}
                     toolbar="hidden"
                     class="tableau-viz"
                 >
